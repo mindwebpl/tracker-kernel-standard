@@ -73,7 +73,7 @@ class Kernel implements Adapter\Kernel
                 $resources
             );
         } else {
-            $cached = require $cache->getPath();
+            $cached = file_get_contents($cache->getPath());
 
             $this->configurationObject = unserialize($cached);
         }
