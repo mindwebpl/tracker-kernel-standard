@@ -53,7 +53,7 @@ class Config implements Adapter\Configuration\Config
      */
     public function serialize()
     {
-        return var_export($this->entries, true);
+        return serialize($this->entries);
     }
 
     /**
@@ -61,7 +61,7 @@ class Config implements Adapter\Configuration\Config
      */
     public function unserialize($serialized)
     {
-        eval('$this->entries = ' . $serialized);
+        $this->entries = unserialize($serialized);
     }
 
     /**
