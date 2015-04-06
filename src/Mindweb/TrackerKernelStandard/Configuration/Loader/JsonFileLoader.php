@@ -21,7 +21,12 @@ class JsonFileLoader extends Config\Loader\FileLoader
      */
     public function load($resource, $type = null)
     {
-        $configuration = json_decode(file_get_contents($resource), true);
+        $configuration = json_decode(
+            file_get_contents(
+                $this->getLocator()->locate($resource)
+            ),
+            true
+        );
 
         foreach ($configuration as $key => $value) {
             $this->configuration[$key] = $value;
