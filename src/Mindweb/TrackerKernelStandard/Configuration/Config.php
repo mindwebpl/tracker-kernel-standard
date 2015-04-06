@@ -3,7 +3,7 @@ namespace Mindweb\TrackerKernelStandard\Configuration;
 
 use Mindweb\TrackerKernel as Adapter;
 
-class Configuration implements Adapter\Configuration\Config
+class Config implements Adapter\Configuration\Config
 {
     /**
      * @var array

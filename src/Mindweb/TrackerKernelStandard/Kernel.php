@@ -2,8 +2,7 @@
 namespace Mindweb\TrackerKernelStandard;
 
 use Mindweb\TrackerKernel as Adapter;
-use Mindweb\TrackerKernelStandard\Configuration\Loader\JsonFileLoader;
-use Mindweb\TrackerKernelStandard\Configuration\Configuration;
+use Mindweb\TrackerKernelStandard\Configuration;
 use Silex;
 use Symfony\Component\Config;
 
@@ -25,7 +24,7 @@ class Kernel implements Adapter\Kernel
     private $application;
 
     /**
-     * @var Configuration
+     * @var Configuration\Config
      */
     private $configurationObject;
 
@@ -53,10 +52,10 @@ class Kernel implements Adapter\Kernel
 
         if (!$configCache->isFresh()) {
             $locator = new Config\FileLocator($config->getPath());
-            $this->configurationObject = new Configuration();
+            $this->configurationObject = new Configuration\Config();
 
             $resolver = new Config\Loader\LoaderResolver(array(
-                new JsonFileLoader(
+                new Configuration\Loader\JsonFileLoader(
                     $this->configurationObject,
                     $locator
                 )
