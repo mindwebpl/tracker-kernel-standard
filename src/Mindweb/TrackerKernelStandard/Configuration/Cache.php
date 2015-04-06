@@ -24,6 +24,6 @@ class Cache implements Adapter\Configuration\Cache
      */
     public function getPath()
     {
-        return $this->fileInfo->getPath();
+        return $this->fileInfo->getPathname();
     }
 }
