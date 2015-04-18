@@ -15,17 +15,23 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
 
+        $this->buildSubscribers($treeBuilder);
+
+        return $treeBuilder;
+    }
+
+    /**
+     * @param $treeBuilder
+     */
+    private function buildSubscribers(TreeBuilder $treeBuilder)
+    {
         $rootNode = $treeBuilder->root('subscribers');
 
         $rootNode
-            ->children()
-                ->arrayNode('subscribers')
-                ->useAttributeAsKey('subscriber')
-                    ->prototype('array')
-                        ->prototype('scalar')->end()
-                    ->end()
+            ->useAttributeAsKey('subscriber')
+                ->prototype('array')
+                    ->prototype('scalar')->end()
                 ->end()
             ->end();
-        return $treeBuilder;
     }
 }

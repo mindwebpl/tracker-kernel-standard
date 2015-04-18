@@ -11,7 +11,7 @@ class JsonFileLoader extends Config\Loader\FileLoader
      */
     private $configuration;
 
-    public function __construct(ConfigInterface $config, Config\FileLocatorInterface $locator)
+    public function __construct(ConfigInterface $config)
     {
         $this->configuration = $config;
     }
@@ -22,9 +22,7 @@ class JsonFileLoader extends Config\Loader\FileLoader
     public function load($resource, $type = null)
     {
         $configuration = json_decode(
-            file_get_contents(
-                $this->getLocator()->locate($resource)
-            ),
+            file_get_contents($resource),
             true
         );
 

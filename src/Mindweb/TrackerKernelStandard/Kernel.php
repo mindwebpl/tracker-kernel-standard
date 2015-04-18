@@ -29,6 +29,11 @@ class Kernel implements Adapter\Kernel
     private $configurationObject;
 
     /**
+     * @var array
+     */
+    private $subscribers;
+
+    /**
      * @param string $env
      * @param bool $debug
      */
@@ -62,10 +67,11 @@ class Kernel implements Adapter\Kernel
             ));
 
             $delegatingLoader = new Config\Loader\DelegatingLoader($resolver);
-            $delegatingLoader->load($config->getFile($this->env));
+            $file = $locator->locate($config->getFile($this->env));
+            $delegatingLoader->load($file);
 
             $resources = array(
-                new Config\Resource\FileResource($config->getFile($this->env))
+                new Config\Resource\FileResource($file)
             );
 
             $configCache->write(
@@ -81,16 +87,30 @@ class Kernel implements Adapter\Kernel
 
     /**
      * @param Adapter\Subscriber\Loader $loader
+     * @param Adapter\Configuration\Cache $cache
      */
-    public function registerSubscribers(Adapter\Subscriber\Loader $loader)
+    public function registerSubscribers(Adapter\Subscriber\Loader $loader, Adapter\Configuration\Cache $cache)
     {
-        $processor = new Config\Definition\Processor();
-        $subscribers = $processor->processConfiguration(
-            new Subscriber\Configuration(),
-            $this->configurationObject->asArray()
+        $configCache = new Config\ConfigCache(
+            $cache->getPath(),
+            $this->debug
         );
 
-        var_dump($subscribers);exit;
+        if (!$configCache->isFresh()) {
+            $processor = new Config\Definition\Processor();
+            $this->subscribers = $processor->processConfiguration(
+                new Subscriber\Configuration(),
+                $this->configurationObject->asArray()
+            );
+
+            $configCache->write(
+                serialize($this->subscribers)
+            );
+        } else {
+            $cached = file_get_contents($cache->getPath());
+
+            $this->subscribers = unserialize($cached);
+        }
     }
 
     public function registerEndPoint()
