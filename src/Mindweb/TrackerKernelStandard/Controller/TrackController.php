@@ -1,5 +1,5 @@
 <?php
-namespace Mindweb\Tracker\Controller;
+namespace Mindweb\TrackerKernelStandard\Controller;
 
 use Mindweb\Recognizer\Recognizer;
 use Mindweb\Recognizer\Event\AttributionEvent;
@@ -15,30 +15,33 @@ use Symfony\Component\HttpFoundation\Response;
 class TrackController
 {
     /**
-     * @param Application $app
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function __construct(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * @param Request $request
      * @return Response
      */
-    public function indexAction(Application $app)
+    public function indexAction(Request $request)
     {
-        /**
-         * @var EventDispatcherInterface $dispatcher
-         */
-        $dispatcher = $app['dispatcher'];
-
-        /**
-         * @var Request $request
-         */
-        $request = $app['request'];
-
         $attributionEvent = new AttributionEvent($request);
-        $dispatcher->dispatch(Recognizer::RECOGNIZE_EVENT, $attributionEvent);
+        $this->dispatcher->dispatch(Recognizer::RECOGNIZE_EVENT, $attributionEvent);
 
         $persistEvent = new PersistEvent($attributionEvent);
-        $dispatcher->dispatch(Persist::PERSIST_EVENT, $persistEvent);
+        $this->dispatcher->dispatch(Persist::PERSIST_EVENT, $persistEvent);
 
         $response = new Response();
         $resolveEvent = new ResolveEvent($attributionEvent, $response);
-        $dispatcher->dispatch(Resolve::RESOLVE_EVENT, $resolveEvent);
+        $this->dispatcher->dispatch(Resolve::RESOLVE_EVENT, $resolveEvent);
 
         return $response;
     }

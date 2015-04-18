@@ -121,11 +121,20 @@ class Kernel implements Adapter\Kernel
 
     public function registerEndPoint()
     {
-        // TODO: Implement registerEndPoint() method.
+        $this->application['track.controller'] = $this->application->share(
+            function (Silex\Application $app) {
+                return new Controller\TrackController(
+                    $app['dispatcher']
+                );
+            }
+        );
+
+        $this->application->register(new Silex\Provider\ServiceControllerServiceProvider());
+        $this->application->get('/', 'track.controller:indexAction');
     }
 
     public function run()
     {
-        // TODO: Implement run() method.
+        $this->application->run();
     }
 }
