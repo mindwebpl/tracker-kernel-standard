@@ -15,9 +15,24 @@ class Loader implements Adapter\Subscriber\Loader
      */
     private $processor;
 
-    public function __construct()
+    /**
+     * @var Adapter\Configuration\Cache
+     */
+    private $cache;
+    /**
+     * @var bool
+     */
+    private $debug;
+
+    /**
+     * @param Adapter\Configuration\Cache $cache
+     * @param bool $debug
+     */
+    public function __construct(Adapter\Configuration\Cache $cache, $debug = false)
     {
         $this->processor = new Config\Definition\Processor();
+        $this->cache = $cache;
+        $this->debug = $debug;
     }
     /**
      * @param EventDispatcherInterface $dispatcher
@@ -56,12 +71,29 @@ class Loader implements Adapter\Subscriber\Loader
      */
     private function getConfigurationForSubscriber(Subscriber $subscriber, Adapter\Configuration\Config $configuration)
     {
+        $configCache = new Config\ConfigCache(
+            $this->cache->getPath(),
+            $this->debug
+        );
+
         $schema = $subscriber->getConfiguration();
         if ($schema !== null) {
-            return $this->processor->processConfiguration(
-                $schema,
-                $configuration->asArray()
-            );
+            if (!$configCache->isFresh()) {
+                $configurationForSubscriber =  $this->processor->processConfiguration(
+                    $schema,
+                    $configuration->asArray()
+                );
+
+                $configCache->write(
+                    serialize($configurationForSubscriber)
+                );
+            } else {
+                $configurationForSubscriber = unserialize(
+                    file_get_contents($this->cache->getPath())
+                );
+            }
+
+            return $configurationForSubscriber;
         }
 
         return array();
