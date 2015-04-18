@@ -111,6 +111,12 @@ class Kernel implements Adapter\Kernel
 
             $this->subscribers = unserialize($cached);
         }
+
+        $loader->load(
+            $this->application['dispatcher'],
+            $this->subscribers,
+            $this->configurationObject
+        );
     }
 
     public function registerEndPoint()
