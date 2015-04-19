@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mindwebpl/persist.git",
-                "reference": "1d06390199dc266b405167f7e0ff9b0c0711b0a7"
+                "reference": "65b39892efa14bfc30debd52a0e8422601e7696d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mindwebpl/persist/zipball/1d06390199dc266b405167f7e0ff9b0c0711b0a7",
-                "reference": "1d06390199dc266b405167f7e0ff9b0c0711b0a7",
+                "url": "https://api.github.com/repos/mindwebpl/persist/zipball/65b39892efa14bfc30debd52a0e8422601e7696d",
+                "reference": "65b39892efa14bfc30debd52a0e8422601e7696d",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
                     "email": "marcin@czolnowski.net"
                 }
             ],
-            "time": "2015-04-06 15:14:16"
+            "time": "2015-04-19 12:35:00"
         },
         {
             "name": "mindweb/recognizer",
@@ -49,12 +49,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mindwebpl/recognizer.git",
-                "reference": "20c8f030785db8ec6641465915659c9a00e30e76"
+                "reference": "4442734109d813beeb959c02cd9238e4b639f36d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mindwebpl/recognizer/zipball/20c8f030785db8ec6641465915659c9a00e30e76",
-                "reference": "20c8f030785db8ec6641465915659c9a00e30e76",
+                "url": "https://api.github.com/repos/mindwebpl/recognizer/zipball/4442734109d813beeb959c02cd9238e4b639f36d",
+                "reference": "4442734109d813beeb959c02cd9238e4b639f36d",
                 "shasum": ""
             },
             "require": {
@@ -78,7 +78,7 @@
                     "email": "marcin@czolnowski.net"
                 }
             ],
-            "time": "2015-04-04 15:13:35"
+            "time": "2015-04-18 18:08:54"
         },
         {
             "name": "mindweb/resolve",
@@ -86,15 +86,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mindwebpl/resolve.git",
-                "reference": "93d5db78fa17a162ead486e648699a2ff02f8bff"
+                "reference": "2ca2b04b2f0b5ad24b579ea33ac6b1b4c1f88b21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mindwebpl/resolve/zipball/93d5db78fa17a162ead486e648699a2ff02f8bff",
-                "reference": "93d5db78fa17a162ead486e648699a2ff02f8bff",
+                "url": "https://api.github.com/repos/mindwebpl/resolve/zipball/2ca2b04b2f0b5ad24b579ea33ac6b1b4c1f88b21",
+                "reference": "2ca2b04b2f0b5ad24b579ea33ac6b1b4c1f88b21",
                 "shasum": ""
             },
             "require": {
+                "mindweb/persist": "dev-master",
                 "mindweb/recognizer": "dev-master",
                 "mindweb/subscriber": "dev-master",
                 "symfony/event-dispatcher": "~2.3,<2.7",
@@ -116,7 +117,7 @@
                     "email": "marcin@czolnowski.net"
                 }
             ],
-            "time": "2015-04-06 15:28:46"
+            "time": "2015-04-19 12:35:33"
         },
         {
             "name": "mindweb/subscriber",
@@ -124,12 +125,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mindwebpl/subscriber.git",
-                "reference": "b39c00be983f133c45e9776b20dc5727cdde8f1c"
+                "reference": "829cfcbbcb11d1b52728993b1e5c927b984be3ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mindwebpl/subscriber/zipball/b39c00be983f133c45e9776b20dc5727cdde8f1c",
-                "reference": "b39c00be983f133c45e9776b20dc5727cdde8f1c",
+                "url": "https://api.github.com/repos/mindwebpl/subscriber/zipball/829cfcbbcb11d1b52728993b1e5c927b984be3ac",
+                "reference": "829cfcbbcb11d1b52728993b1e5c927b984be3ac",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +152,7 @@
                     "email": "marcin@czolnowski.net"
                 }
             ],
-            "time": "2015-04-04 14:47:26"
+            "time": "2015-04-18 16:28:54"
         },
         {
             "name": "mindweb/tracker-kernel",
@@ -159,13 +160,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mindwebpl/tracker-kernel.git",
-                "reference": "de18f69cdced1ae8082dfc00342996d3d62571fe"
+                "reference": "878efd250c2dfd06d299108e48ce7d739034d0e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mindwebpl/tracker-kernel/zipball/de18f69cdced1ae8082dfc00342996d3d62571fe",
-                "reference": "de18f69cdced1ae8082dfc00342996d3d62571fe",
+                "url": "https://api.github.com/repos/mindwebpl/tracker-kernel/zipball/878efd250c2dfd06d299108e48ce7d739034d0e0",
+                "reference": "878efd250c2dfd06d299108e48ce7d739034d0e0",
                 "shasum": ""
+            },
+            "require": {
+                "symfony/event-dispatcher": "~2.3,<2.7"
             },
             "type": "library",
             "autoload": {
@@ -183,7 +187,7 @@
                     "email": "marcin@czolnowski.net"
                 }
             ],
-            "time": "2015-04-18 15:19:37"
+            "time": "2015-04-18 16:51:29"
         },
         {
             "name": "pimple/pimple",
