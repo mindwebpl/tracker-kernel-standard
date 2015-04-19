@@ -71,25 +71,23 @@ class Loader implements Adapter\Subscriber\Loader
      */
     private function getConfigurationForSubscriber(Subscriber $subscriber, Adapter\Configuration\Config $configuration)
     {
+        $path = sprintf($this->cache->getPath(), md5(get_class($subscriber)));
         $configCache = new Config\ConfigCache(
-            $this->cache->getPath(),
+            $path,
             $this->debug
         );
 
         $schema = $subscriber->getConfiguration();
         if ($schema !== null) {
             if (!$configCache->isFresh()) {
-                $configurationForSubscriber =  $this->processor->processConfiguration(
-                    $schema,
-                    $configuration->asArray()
-                );
+                $configurationForSubscriber = $this->processForConfiguration($schema, $configuration);
 
                 $configCache->write(
                     serialize($configurationForSubscriber)
                 );
             } else {
                 $configurationForSubscriber = unserialize(
-                    file_get_contents($this->cache->getPath())
+                    file_get_contents($path)
                 );
             }
 
@@ -97,6 +95,22 @@ class Loader implements Adapter\Subscriber\Loader
         }
 
         return array();
+    }
+
+    /**
+     * @param Config\Definition\ConfigurationInterface $configuration
+     * @param Adapter\Configuration\Config $configurationObject
+     * @return array
+     */
+    private function processForConfiguration(Config\Definition\ConfigurationInterface $configuration, Adapter\Configuration\Config $configurationObject)
+    {
+        $rootName = $configuration->getConfigTreeBuilder()->buildTree()->getName();
+        $configurationArray = $configurationObject->asArray();
+
+        return $this->processor->processConfiguration(
+            $configuration,
+            array($configurationArray[$rootName])
+        );
     }
 
     /**

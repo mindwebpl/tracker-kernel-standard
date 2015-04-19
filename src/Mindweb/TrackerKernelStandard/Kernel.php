@@ -34,6 +34,11 @@ class Kernel implements Adapter\Kernel
     private $subscribers;
 
     /**
+     * @var Config\Definition\Processor
+     */
+    private $processor;
+
+    /**
      * @param string $env
      * @param bool $debug
      */
@@ -42,6 +47,7 @@ class Kernel implements Adapter\Kernel
         $this->env = $env;
         $this->debug = $debug;
         $this->application = new Silex\Application();
+        $this->processor = new Config\Definition\Processor();
     }
 
     /**
@@ -97,10 +103,8 @@ class Kernel implements Adapter\Kernel
         );
 
         if (!$configCache->isFresh()) {
-            $processor = new Config\Definition\Processor();
-            $this->subscribers = $processor->processConfiguration(
-                new Subscriber\Configuration(),
-                $this->configurationObject->asArray()
+            $this->subscribers = $this->processForConfiguration(
+                new Subscriber\Configuration()
             );
 
             $configCache->write(
@@ -136,5 +140,20 @@ class Kernel implements Adapter\Kernel
     public function run()
     {
         $this->application->run();
+    }
+
+    /**
+     * @param Config\Definition\ConfigurationInterface $configuration
+     * @return array
+     */
+    private function processForConfiguration(Config\Definition\ConfigurationInterface $configuration)
+    {
+        $rootName = $configuration->getConfigTreeBuilder()->buildTree()->getName();
+        $configurationArray = $this->configurationObject->asArray();
+
+        return $this->processor->processConfiguration(
+            $configuration,
+            array($configurationArray[$rootName])
+        );
     }
 }
