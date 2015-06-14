@@ -134,7 +134,7 @@ class Kernel implements Adapter\Kernel
         );
 
         $this->application->register(new Silex\Provider\ServiceControllerServiceProvider());
-        $this->application->get('/', 'track.controller:indexAction');
+        $this->application->match('/', 'track.controller:indexAction');
     }
 
     public function run()
